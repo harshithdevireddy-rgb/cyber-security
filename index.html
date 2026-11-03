@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Cyber - Cyber Security & Cyberbullying Redressal Portal</title>
+  <link rel="stylesheet" href="styles.css">
+  <!-- Tailwind CSS via trusted CDN or system styles -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            cyber: {
+              950: '#070a12',
+              900: '#0c1222',
+              850: '#11192e',
+              800: '#172340',
+              700: '#233876',
+              cyan: '#00f2fe',
+              emerald: '#10b981',
+              neon: '#4facfe',
+              alert: '#ff3366',
+              amber: '#f59e0b'
+            }
+          },
+          fontFamily: {
+            mono: ['SF Mono', 'Menlo', 'Consolas', 'Courier New', 'monospace'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Feather / Lucide Icons SVG fallback -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-cyber-950 text-slate-100 min-h-screen antialiased flex flex-col selection:bg-cyber-cyan selection:text-cyber-950">
+
+  <!-- Top Emergency Alert & Quick Escape Banner -->
+  <div class="bg-cyber-900 border-b border-cyber-800 text-xs py-2 px-4 flex flex-wrap items-center justify-between gap-3 text-slate-300">
+    <div class="flex items-center gap-2">
+      <span class="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+      <span class="font-medium text-emerald-400">Cyber Crime Dispatch Active:</span>
+      <span>National Cyber Defense Network & Local Cell Dispatch is 24/7 Operational</span>
+      <span class="hidden md:inline text-slate-500">|</span>
+      <span class="hidden md:inline text-amber-400"><i class="fas fa-phone-alt mr-1"></i>Emergency Cyber Helpline: <strong>1930</strong> (Toll Free)</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button id="quickEscapeBtn" onclick="quickEscape()" title="Immediately hide this page if someone walks in" class="bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 px-3 py-1 rounded text-xs font-semibold flex items-center gap-1.5 transition">
+        <i class="fas fa-shield-halved"></i> Quick Escape (ESC)
+      </button>
+      <div class="text-slate-400 text-xs hidden sm:block">
+        Encrypted End-to-End <i class="fas fa-lock text-cyber-cyan ml-1"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Header & Navbar -->
+  <header class="sticky top-0 z-40 bg-cyber-900/90 backdrop-blur-md border-b border-cyber-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('report')">
+        <div class="relative w-11 h-11 rounded-xl bg-gradient-to-tr from-cyber-cyan via-indigo-500 to-purple-600 p-[2px] shadow-lg shadow-cyber-cyan/20">
+          <div class="w-full h-full bg-cyber-950 rounded-[10px] flex items-center justify-center">
+            <i class="fas fa-user-shield text-cyber-cyan text-xl"></i>
+          </div>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-slate-100 to-cyber-cyan bg-clip-text text-transparent">Report Cyber</span>
+            <span class="bg-cyber-cyan/15 text-cyber-cyan border border-cyber-cyan/30 text-[11px] font-mono px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold">Official Cell</span>
+          </div>
+          <p class="text-xs text-slate-400">Cyber Crime & Cyberbullying Law Redressal Authority</p>
+        </div>
+      </div>
+
+      <!-- Nav Links -->
+      <nav class="hidden md:flex items-center gap-1 bg-cyber-950/70 p-1.5 rounded-xl border border-cyber-800/80">
+        <button onclick="switchTab('report')" id="nav-report" class="nav-btn active px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 text-cyber-cyan bg-cyber-800/80 shadow-sm">
+          <i class="fas fa-file-shield"></i> File Report
+        </button>
+        <button onclick="switchTab('cases')" id="nav-cases" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 text-slate-400 hover:text-slate-200">
+          <i class="fas fa-folder-open"></i> My Cases & Officer Desk
+          <span id="activeCasesBadge" class="bg-cyber-cyan/20 text-cyber-cyan text-xs px-2 py-0.5 rounded-full font-mono">1</span>
+        </button>
+        <button onclick="switchTab('stations')" id="nav-stations" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 text-slate-400 hover:text-slate-200">
+          <i class="fas fa-building-shield"></i> Nearest Stations
+        </button>
+        <button onclick="switchTab('resources')" id="nav-resources" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2 text-slate-400 hover:text-slate-200">
+          <i class="fas fa-book-medical"></i> Victim Rights & Safety
+        </button>
+      </nav>
+
+      <!-- Right Action CTA -->
+      <div class="flex items-center gap-3">
+        <button onclick="startNewReport()" class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-cyber-cyan to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-cyber-950 font-bold px-4 py-2 rounded-lg text-sm transition shadow-lg shadow-cyber-cyan/25">
+          <i class="fas fa-plus-circle"></i> New Incident
+        </button>
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-400 hover:text-white">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-cyber-800 bg-cyber-950 p-4 space-y-2">
+      <button onclick="switchTab('report'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 text-slate-200 hover:bg-cyber-900">
+        <i class="fas fa-file-shield text-cyber-cyan"></i> File Cyber Report
+      </button>
+      <button onclick="switchTab('cases'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 text-slate-200 hover:bg-cyber-900">
+        <i class="fas fa-folder-open text-cyber-cyan"></i> My Cases & Officer Desk
+      </button>
+      <button onclick="switchTab('stations'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 text-slate-200 hover:bg-cyber-900">
+        <i class="fas fa-building-shield text-cyber-cyan"></i> Nearest Cyber Police Stations
+      </button>
+      <button onclick="switchTab('resources'); toggleMobileMenu()" class="w-full text-left px-4 py-2.5 rounded-lg text-sm flex items-center gap-2 text-slate-200 hover:bg-cyber-900">
+        <i class="fas fa-book-medical text-cyber-cyan"></i> Victim Rights & Laws
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 relative">
+    
+    <!-- Cyber Grid Background Decor -->
+    <div class="absolute inset-0 pointer-events-none opacity-20 overflow-hidden">
+      <div class="cyber-grid w-full h-full"></div>
+    </div>
+
+    <!-- TAB 1: FILE REPORT (WIZARD) -->
+    <div id="tab-report" class="tab-content relative z-10">
+      
+      <!-- Intro Hero Banner -->
+      <div class="mb-8 bg-gradient-to-r from-cyber-900 via-cyber-850 to-cyber-900 border border-cyber-800/90 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-cyber-cyan/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+        <div class="max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-cyan/10 border border-cyber-cyan/30 text-cyber-cyan text-xs font-semibold mb-3">
+            <i class="fas fa-lock"></i> 100% Confidential & Legally Enforceable Lodging
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white mb-3">
+            Report Cyberbullying & Digital Harassment
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+            Report threats, doxxing, impersonation, or cyberbullying. Upload video proof and screenshots, secure your cryptographic hash evidence, and have your case routed directly to your nearest Cyber Crime Station with a designated investigating officer.
+          </p>
+          <div class="mt-4 flex flex-wrap gap-4 text-xs text-slate-400">
+            <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-emerald-400"></i> Auto-dispatched to Nearest Station</span>
+            <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-emerald-400"></i> Video Proof Verification</span>
+            <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-emerald-400"></i> Direct Officer Contact Desk</span>
+            <span class="flex items-center gap-1.5"><i class="fas fa-check-circle text-emerald-400"></i> Printable Official Case Docket</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Report Multi-Step Wizard -->
+      <div class="bg-cyber-900/80 border border-cyber-800 rounded-2xl p-6 sm:p-8 shadow-xl backdrop-blur-md">
+        
+        <!-- Step Indicators -->
+        <div class="mb-8">
+          <div class="grid grid-cols-4 gap-2 text-center text-xs sm:text-sm font-medium">
+            <div id="step-nav-1" class="step-indicator active pb-3 border-b-2 border-cyber-cyan text-cyber-cyan flex items-center justify-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-cyber-cyan text-cyber-950 font-bold flex items-center justify-center text-xs">1</span>
+              <span class="hidden sm:inline">Incident Category</span>
+            </div>
+            <div id="step-nav-2" class="step-indicator pb-3 border-b-2 border-cyber-800 text-slate-400 flex items-center justify-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-cyber-800 text-slate-300 font-bold flex items-center justify-center text-xs">2</span>
+              <span class="hidden sm:inline">Perpetrator & Details</span>
+            </div>
+            <div id="step-nav-3" class="step-indicator pb-3 border-b-2 border-cyber-800 text-slate-400 flex items-center justify-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-cyber-800 text-slate-300 font-bold flex items-center justify-center text-xs">3</span>
+              <span class="hidden sm:inline">Video Proof & Evidence</span>
+            </div>
+            <div id="step-nav-4" class="step-indicator pb-3 border-b-2 border-cyber-800 text-slate-400 flex items-center justify-center gap-2">
+              <span class="w-6 h-6 rounded-full bg-cyber-800 text-slate-300 font-bold flex items-center justify-center text-xs">4</span>
+              <span class="hidden sm:inline">Station & Dispatch</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORM START -->
+        <form id="cyberReportForm" onsubmit="handleReportSubmit(event)">
+          
+          <!-- STEP 1: CATEGORY & PLATFORM -->
+          <div id="wizard-step-1" class="wizard-step space-y-6">
+            <div>
+              <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                <i class="fas fa-bullseye text-cyber-cyan"></i> Select Nature of Cyber Incident
+              </h2>
+              <p class="text-xs text-slate-400 mb-4">Choose the primary category that describes what you or the victim is experiencing.</p>
+              
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <label class="cursor-pointer relative border border-cyber-800 hover:border-cyber-cyan/60 rounded-xl p-4 bg-cyber-950/60 transition flex flex-col justify-between group has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/10">
+                  <input type="radio" name="incidentCategory" value="Cyberbullying & Relentless Harassment" checked class="hidden">
+                  <div>
+                    <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 flex items-center justify-center text-cyber-cyan mb-2 group-hover:scale-105 transition">
+                      <i class="fas fa-comments-slash text-lg"></i>
+                    </div>
+                    <div class="font-bold text-slate-100 text-sm">Cyberbullying & Trolling</div>
+                    <p class="text-xs text-slate-400 mt-1">Hate comments, group harassment, defamatory memes, offensive polls or group chats.</p>
+                  </div>
+                  <div class="mt-3 text-right">
+                    <span class="text-[11px] font-mono text-cyber-cyan font-semibold">Priority Redressal</span>
+                  </div>
+                </label>
+
+                <label class="cursor-pointer relative border border-cyber-800 hover:border-cyber-cyan/60 rounded-xl p-4 bg-cyber-950/60 transition flex flex-col justify-between group has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/10">
+                  <input type="radio" name="incidentCategory" value="Non-Consensual Media & Sextortion" class="hidden">
+                  <div>
+                    <div class="w-10 h-10 rounded-lg bg-red-500/10 flex items-center justify-center text-red-400 mb-2 group-hover:scale-105 transition">
+                      <i class="fas fa-shield-virus text-lg"></i>
+                    </div>
+                    <div class="font-bold text-slate-100 text-sm">Sextortion & Private Media</div>
+                    <p class="text-xs text-slate-400 mt-1">Blackmail involving photos/videos, deepfakes, or threats to distribute sensitive material.</p>
+                  </div>
+                  <div class="mt-3 text-right">
+                    <span class="text-[11px] font-mono text-red-400 font-semibold">Immediate Emergency</span>
+                  </div>
+                </label>
+
+                <label class="cursor-pointer relative border border-cyber-800 hover:border-cyber-cyan/60 rounded-xl p-4 bg-cyber-950/60 transition flex flex-col justify-between group has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/10">
+                  <input type="radio" name="incidentCategory" value="Doxxing & Personal Data Leaks" class="hidden">
+                  <div>
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400 mb-2 group-hover:scale-105 transition">
+                      <i class="fas fa-id-card-clip text-lg"></i>
+                    </div>
+                    <div class="font-bold text-slate-100 text-sm">Doxxing & Privacy Breach</div>
+                    <p class="text-xs text-slate-400 mt-1">Publishing phone numbers, home address, family details, or private logs without consent.</p>
+                  </div>
+                  <div class="mt-3 text-right">
+                    <span class="text-[11px] font-mono text-purple-400 font-semibold">Legal Protection</span>
+                  </div>
+                </label>
+
+                <label class="cursor-pointer relative border border-cyber-800 hover:border-cyber-cyan/60 rounded-xl p-4 bg-cyber-950/60 transition flex flex-col justify-between group has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/10">
+                  <input type="radio" name="incidentCategory" value="Impersonation & Fake Account Creation" class="hidden">
+                  <div>
+                    <div class="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 mb-2 group-hover:scale-105 transition">
+                      <i class="fas fa-masks-theater text-lg"></i>
+                    </div>
+                    <div class="font-bold text-slate-100 text-sm">Fake Profiles & Identity Theft</div>
+                    <p class="text-xs text-slate-400 mt-1">Cloning your profile to solicit money, spread rumors, or ruin personal reputation.</p>
+                  </div>
+                  <div class="mt-3 text-right">
+                    <span class="text-[11px] font-mono text-amber-400 font-semibold">Takedown Request</span>
+                  </div>
+                </label>
+
+                <label class="cursor-pointer relative border border-cyber-800 hover:border-cyber-cyan/60 rounded-xl p-4 bg-cyber-950/60 transition flex flex-col justify-between group has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/10">
+                  <input type="radio" name="incidentCategory" value="Death Threats & Cyberstalking" class="hidden">
+                  <div>
+                    <div class="w-10 h-10 rounded-lg bg-rose-500/10 flex items-center justify-center text-rose-400 mb-2 group-hover:scale-105 transition">
+                      <i class="fas fa-skull-crossbones text-lg"></i>
+                    </div>
+                    <div class="font-bold text-slate-100 text-sm">Threats of Violence / Stalking</div>
+                    <p class="text-xs text-slate-400 mt-1">Direct physical threats, continuous tracking of location, persistent menacing calls.</p>
+                  </div>
+                  <div class="mt-3 text-right">
+                    <span class="text-[11px] font-mono text-rose-400 font-semibold">Critical Threat</span>
+                  </div>
+                </label>
+
+                <label class="cursor-pointer relative border border-cyber-800 hover:border-cyber-cyan/60 rounded-xl p-4 bg-cyber-950/60 transition flex flex-col justify-between group has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/10">
+                  <input type="radio" name="incidentCategory" value="Online Financial Fraud & Phishing" class="hidden">
+                  <div>
+                    <div class="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-2 group-hover:scale-105 transition">
+                      <i class="fas fa-credit-card text-lg"></i>
+                    </div>
+                    <div class="font-bold text-slate-100 text-sm">Financial Cyber Crime / Scams</div>
+                    <p class="text-xs text-slate-400 mt-1">Phishing links, account takeover, unauthorized UPI/Card debits, crypto theft.</p>
+                  </div>
+                  <div class="mt-3 text-right">
+                    <span class="text-[11px] font-mono text-emerald-400 font-semibold">Asset Freezing</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Platform / Medium -->
+            <div class="pt-4 border-t border-cyber-800">
+              <label class="block text-sm font-semibold text-slate-200 mb-2">Where did the bullying or crime take place?</label>
+              <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-2.5">
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="Instagram" checked class="hidden">
+                  <i class="fab fa-instagram text-pink-500 text-lg"></i>
+                  <span>Instagram</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="Discord" class="hidden">
+                  <i class="fab fa-discord text-indigo-400 text-lg"></i>
+                  <span>Discord</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="WhatsApp" class="hidden">
+                  <i class="fab fa-whatsapp text-emerald-400 text-lg"></i>
+                  <span>WhatsApp</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="Snapchat" class="hidden">
+                  <i class="fab fa-snapchat text-yellow-400 text-lg"></i>
+                  <span>Snapchat</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="TikTok" class="hidden">
+                  <i class="fab fa-tiktok text-slate-100 text-lg"></i>
+                  <span>TikTok</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="X (Twitter)" class="hidden">
+                  <i class="fab fa-x-twitter text-slate-200 text-lg"></i>
+                  <span>X (Twitter)</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="Gaming (Roblox/Valorant)" class="hidden">
+                  <i class="fas fa-gamepad text-purple-400 text-lg"></i>
+                  <span>Gaming Chat</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="School/College Portal" class="hidden">
+                  <i class="fas fa-graduation-cap text-cyan-400 text-lg"></i>
+                  <span>School/Campus</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="SMS / Direct Phone" class="hidden">
+                  <i class="fas fa-comment-dots text-green-400 text-lg"></i>
+                  <span>SMS/Phone</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="Email" class="hidden">
+                  <i class="fas fa-envelope text-blue-400 text-lg"></i>
+                  <span>Email</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="Telegram" class="hidden">
+                  <i class="fab fa-telegram text-sky-400 text-lg"></i>
+                  <span>Telegram</span>
+                </label>
+                <label class="border border-cyber-800 rounded-lg p-2.5 text-center text-xs flex flex-col items-center gap-1.5 cursor-pointer bg-cyber-950 hover:border-cyber-cyan has-[:checked]:border-cyber-cyan has-[:checked]:bg-cyber-cyan/15">
+                  <input type="checkbox" name="platform" value="Other Platform" class="hidden">
+                  <i class="fas fa-ellipsis text-slate-400 text-lg"></i>
+                  <span>Other</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Severity & Frequency -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-cyber-800">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Incident Frequency</label>
+                <select id="incidentFrequency" class="w-full bg-cyber-950 border border-cyber-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan">
+                  <option value="Ongoing daily harassment (High urgency)">Ongoing daily harassment (High urgency)</option>
+                  <option value="Multiple incidents in past 7 days">Multiple incidents in past 7 days</option>
+                  <option value="Single critical threat / blackmailed today">Single critical threat / blackmailed today</option>
+                  <option value="Past incident with recurring threats">Past incident with recurring threats</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Self-Assessed Danger Level</label>
+                <select id="dangerLevel" class="w-full bg-cyber-950 border border-cyber-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan">
+                  <option value="High (Threat to safety, reputation, or mental health)">Level 3: High (Threat to safety, reputation, or mental health)</option>
+                  <option value="Critical (Immediate violence or extortion threats)">Level 4: Critical (Immediate violence or extortion threats)</option>
+                  <option value="Moderate (Persistent insults, stalking, fake profiles)">Level 2: Moderate (Persistent insults, stalking, fake profiles)</option>
+                  <option value="Low (Single offensive encounter / trolling)">Level 1: Low (Single offensive encounter / trolling)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex justify-end pt-4">
+              <button type="button" onclick="goToStep(2)" class="px-6 py-2.5 bg-cyber-cyan text-cyber-950 font-bold rounded-lg text-sm hover:bg-cyan-300 transition flex items-center gap-2">
+                Continue to Perpetrator Details <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 2: PERPETRATOR & VICTIM DETAILS -->
+          <div id="wizard-step-2" class="wizard-step hidden space-y-6">
+            <div>
+              <h2 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+                <i class="fas fa-user-secret text-cyber-cyan"></i> Perpetrator & Incident Narrative
+              </h2>
+              <p class="text-xs text-slate-400 mb-4">Provide any handles, phone numbers, or links associated with the bully or cyber offender.</p>
+            </div>
+
+            <!-- Perpetrator Info Fields -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Perpetrator Handle / Username / Profile URL *</label>
+                <input type="text" id="perpetratorHandle" placeholder="@bully_account or https://instagram.com/..." class="w-full bg-cyber-950 border border-cyber-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan" required>
+                <p class="text-[11px] text-slate-500 mt-1">If unknown, write "Anonymous" or "Multiple Accounts".</p>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Perpetrator Phone / Email (if known)</label>
+                <input type="text" id="perpetratorContact" placeholder="+1 (555) 019-2834 or burner email" class="w-full bg-cyber-950 border border-cyber-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">Do you know who this person is in real life?</label>
+                <select id="knownRelationship" class="w-full bg-cyber-950 border border-cyber-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan">
+                  <option value="Yes - Classmate / Peer at school/university">Yes - Classmate / Peer at school/university</option>
+                  <option value="Yes - Ex-partner / Acquaintance">Yes - Ex-partner / Acquaintance</option>
+                  <option value="Yes - Colleague / Work associate">Yes - Colleague / Work associate</option>
+                  <option value="Suspected but unconfirmed identity">Suspected but unconfirmed identity</option>
+                  <option value="No - Complete stranger / Anonymous internet troll">No - Complete stranger / Anonymous internet troll</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1">First Date When Harassment Began</label>
+                <input type="date" id="incidentDate" class="w-full bg-cyber-950 border border-cyber-800 rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan">
+              </div>
+            </div>
+
+            <!-- Detailed Narrative -->
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">Describe what happened in detail *</label>
+              <textarea id="incidentDescription" rows="4" placeholder="Detail the sequence of events: What messages were sent? Were threats made? Are they sharing private photos or encouraging others to bully you? Mention if group chats or specific hashtags are involved..." class="w-full bg-cyber-950 border border-cyber-800 rounded-lg p-3 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan" required></textarea>
+              <div class="flex justify-between items-center text-[11px] text-slate-500 mt-1">
+                <span>The cyber police unit uses this statement to formulate the charge sheet.</span>
+                <span id="charCount">0 characters</span>
+              </div>
+            </div>
+
+            <!-- Victim Details & Privacy Shield -->
+            <div class="bg-cyber-950/70 p-4 rounded-xl border border-cyber-800/80 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                  <i class="fas fa-user-shield text-cyber-cyan"></i> Victim Contact Information (Strictly Confidential)
+                </span>
+                <label class="inline-flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
+                  <input type="checkbox" id="anonymousReport" onchange="toggleAnonymousMode(this)" class="rounded bg-cyber-900 border-cyber-700 text-cyber-cyan">
+                  <span>File Anonymously (Discreet)</span>
+                </label>
+              </div>
+
+              <div id="victimDetailsGrid" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Your Full Name *</label>
+                  <input type="text" id="victimName" placeholder="Alex Morgan" class="w-full bg-cyber-900 border border-cyber-800 rounded-lg px-3 py-1.5 text-sm text-slate-200 focus:border-cyber-cyan">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Your Phone Number (For Officer Calls) *</label>
+                  <input type="tel" id="victimPhone" placeholder="+1 (555) 234-5678" class="w-full bg-cyber-900 border border-cyber-800 rounded-lg px-3 py-1.5 text-sm text-slate-200 focus:border-cyber-cyan">
+                </div>
+                <div>
+                  <label class="block text-[11px] text-slate-400 mb-1">Your Email (For FIR & Case Reports) *</label>
+                  <input type="email" id="victimEmail" placeholder="alex@example.com" class="w-full bg-cyber-900 border border-cyber-800 rounded-lg px-3 py-1.5 text-sm text-slate-200 focus:border-cyber-cyan">
+                </div>
+              </div>
+              <p id="anonNote" class="hidden text-xs text-amber-300/90 bg-amber-500/10 p-2 rounded border border-amber-500/20">
+                <i class="fas fa-info-circle mr-1"></i> Anonymous Mode active: Your identity will be masked with an encrypted pseudonym token (e.g. <code>PROTECTED-VICTIM-902</code>). Officers can only message you via this portal.
+              </p>
+            </div>
+
+            <div class="flex justify-between pt-4">
+              <button type="button" onclick="goToStep(1)" class="px-5 py-2.5 bg-cyber-950 border border-cyber-800 text-slate-300 font-semibold rounded-lg text-sm hover:border-slate-600 transition flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button type="button" onclick="goToStep(3)" class="px-6 py-2.5 bg-cyber-cyan text-cyber-950 font-bold rounded-lg text-sm hover:bg-cyan-300 transition flex items-center gap-2">
+                Continue to Evidence Upload <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 3: VIDEO PROOFS & DIGITAL EVIDENCE -->
+          <div id="wizard-step-3" class="wizard-step hidden space-y-6">
+            <div>
+              <div class="flex items-center justify-between">
+                <div>
+                  <h2 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                    <i class="fas fa-video text-cyber-cyan"></i> Submit Video Proof & Digital Evidence
+                  </h2>
+                  <p class="text-xs text-slate-400">Upload screen recordings, chat videos, audio voicemails, screenshots, or export chats.</p>
+                </div>
+                <span class="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded text-xs font-mono">
+                  <i class="fas fa-fingerprint mr-1"></i> SHA-256 Chain of Custody
+                </span>
+              </div>
+            </div>
+
+            <!-- Evidence Upload Drag & Drop Area -->
+            <div id="dropZone" class="border-2 border-dashed border-cyber-700 hover:border-cyber-cyan bg-cyber-950/80 rounded-2xl p-8 text-center transition cursor-pointer relative group">
+              <input type="file" id="evidenceFileInput" multiple accept="video/*,image/*,audio/*,.pdf,.txt" onchange="handleEvidenceFiles(this.files)" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
+              <div class="space-y-3">
+                <div class="w-16 h-16 mx-auto rounded-2xl bg-cyber-800/80 text-cyber-cyan flex items-center justify-center text-2xl group-hover:scale-110 group-hover:bg-cyber-cyan group-hover:text-cyber-950 transition">
+                  <i class="fas fa-cloud-arrow-up"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-slate-200">Drag & Drop Video Proofs or Screenshots Here</h3>
+                  <p class="text-xs text-slate-400 mt-1">Supports MP4, MOV, WEBM screen recordings, PNG/JPG screenshots, MP3 audio, and PDF exports (Max 100MB)</p>
+                </div>
+                <div class="flex justify-center gap-3 pt-2">
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyber-900 border border-cyber-800 text-xs text-slate-300">
+                    <i class="fas fa-film text-cyber-cyan"></i> Video Proof
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyber-900 border border-cyber-800 text-xs text-slate-300">
+                    <i class="fas fa-camera text-cyber-cyan"></i> Screenshots
+                  </span>
+                  <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyber-900 border border-cyber-800 text-xs text-slate-300">
+                    <i class="fas fa-microphone text-cyber-cyan"></i> Audio Voicemails
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alternative: Record Video Statement / Screen capture simulator -->
+            <div class="bg-cyber-950/60 border border-cyber-800 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-lg bg-red-500/20 text-red-400 flex items-center justify-center text-lg">
+                  <i class="fas fa-record-vinyl animate-pulse"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-semibold text-slate-200">Need to record live proof right now?</h4>
+                  <p class="text-xs text-slate-400">Capture your screen or webcam statement to preserve disappearing messages.</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button type="button" onclick="openScreenRecorderModal()" class="px-3.5 py-1.5 bg-cyber-800 hover:bg-cyber-700 text-slate-200 border border-cyber-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                  <i class="fas fa-desktop text-cyber-cyan"></i> Capture Screen
+                </button>
+                <button type="button" onclick="addSampleEvidence()" class="px-3.5 py-1.5 bg-cyber-cyan/15 hover:bg-cyber-cyan/25 text-cyber-cyan border border-cyber-cyan/30 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+                  <i class="fas fa-magic"></i> Auto-Load Sample Evidence
+                </button>
+              </div>
+            </div>
+
+            <!-- Evidence List Container -->
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+                  <i class="fas fa-paperclip text-cyber-cyan"></i> Attached Evidence Dossier (<span id="evidenceCount">0</span> items)
+                </h3>
+                <span class="text-[11px] text-slate-400">Tamper-evident timestamp active</span>
+              </div>
+
+              <div id="evidenceList" class="space-y-3">
+                <!-- Dynamically populated or empty state -->
+                <div id="emptyEvidenceState" class="text-center py-8 bg-cyber-950/40 rounded-xl border border-cyber-900 text-slate-500 text-xs">
+                  <i class="fas fa-file-circle-question text-3xl mb-2 text-slate-600 block"></i>
+                  No evidence uploaded yet. Attach at least 1 video or screenshot for maximum prosecution speed.
+                </div>
+              </div>
+            </div>
+
+            <div class="flex justify-between pt-4">
+              <button type="button" onclick="goToStep(2)" class="px-5 py-2.5 bg-cyber-950 border border-cyber-800 text-slate-300 font-semibold rounded-lg text-sm hover:border-slate-600 transition flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button type="button" onclick="goToStep(4)" class="px-6 py-2.5 bg-cyber-cyan text-cyber-950 font-bold rounded-lg text-sm hover:bg-cyan-300 transition flex items-center gap-2">
+                Continue to Station Dispatch <i class="fas fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- STEP 4: NEAREST STATION ROUTING & DISPATCH -->
+          <div id="wizard-step-4" class="wizard-step hidden space-y-6">
+            <div>
+              <h2 class="text-xl font-bold text-white mb-1 flex items-center gap-2">
+                <i class="fas fa-building-shield text-cyber-cyan"></i> Station Routing & Final Lodging
+              </h2>
+              <p class="text-xs text-slate-400">Your report will be cryptographically locked and transmitted to your nearest Cyber Crime Division station.</p>
+            </div>
+
+            <!-- Auto-Location Detector -->
+            <div class="bg-cyber-950/80 border border-cyber-800 rounded-xl p-5 space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <span class="text-xs font-mono text-cyber-cyan uppercase font-semibold">Jurisdiction Determination</span>
+                  <h3 class="text-base font-bold text-white flex items-center gap-2 mt-0.5">
+                    <i class="fas fa-location-dot text-red-400"></i> Detecting Nearest Cyber Police Station
+                  </h3>
+                </div>
+                <button type="button" onclick="detectUserLocation()" class="px-3.5 py-1.5 bg-cyber-800 hover:bg-cyber-700 text-slate-200 border border-cyber-700 rounded-lg text-xs font-medium flex items-center gap-1.5 transition self-start sm:self-auto">
+                  <i class="fas fa-crosshairs text-cyber-cyan"></i> Re-scan Location
+                </button>
+              </div>
+
+              <!-- Station Selection -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="stationsSelector">
+                <!-- Station 1 (Default closest) -->
+                <label class="border-2 border-cyber-cyan bg-cyber-cyan/10 rounded-xl p-4 cursor-pointer relative block transition hover:bg-cyber-cyan/15">
+                  <input type="radio" name="targetStation" value="Metro Central Cyber Crime Cell (HQ)" checked class="hidden">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <span class="inline-block bg-cyber-cyan text-cyber-950 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider mb-1">
+                        Nearest Match (2.4 km)
+                      </span>
+                      <h4 class="font-bold text-white text-sm">Metro Central Cyber Crime Division</h4>
+                      <p class="text-xs text-slate-300 mt-1">Special Cyberbullying & Digital Threats Taskforce</p>
+                      <p class="text-[11px] text-slate-400 mt-1"><i class="fas fa-map-pin mr-1 text-cyber-cyan"></i> Sector 4, Civic Cyber Center, Station #09</p>
+                    </div>
+                    <span class="text-emerald-400 text-xs font-semibold flex items-center gap-1">
+                      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> 24/7 Desk
+                    </span>
+                  </div>
+                  <div class="mt-3 pt-2 border-t border-cyber-cyan/30 flex justify-between items-center text-[11px] text-slate-300">
+                    <span>Officer in Charge: <strong>Inspector S. Chen</strong></span>
+                    <span class="font-mono text-cyber-cyan">ETA Response: ~15 mins</span>
+                  </div>
+                </label>
+
+                <!-- Station 2 -->
+                <label class="border border-cyber-800 bg-cyber-950 rounded-xl p-4 cursor-pointer relative block transition hover:border-cyber-cyan/60 hover:bg-cyber-900/60">
+                  <input type="radio" name="targetStation" value="Zonal North Cyber Police Station" class="hidden">
+                  <div class="flex items-start justify-between">
+                    <div>
+                      <span class="inline-block bg-slate-800 text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider mb-1">
+                        Alternative (5.8 km)
+                      </span>
+                      <h4 class="font-bold text-white text-sm">Zonal Cyber Redressal Station North</h4>
+                      <p class="text-xs text-slate-300 mt-1">Youth Harassment & School Safety Wing</p>
+                      <p class="text-[11px] text-slate-400 mt-1"><i class="fas fa-map-pin mr-1 text-slate-500"></i> North Boulevard, Cyber Complex #12</p>
+                    </div>
+                    <span class="text-emerald-400 text-xs font-semibold flex items-center gap-1">
+                      <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Active
+                    </span>
+                  </div>
+                  <div class="mt-3 pt-2 border-t border-cyber-800 flex justify-between items-center text-[11px] text-slate-400">
+                    <span>Officer in Charge: <strong>Inspector K. Vance</strong></span>
+                    <span class="font-mono text-slate-400">ETA Response: ~35 mins</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            <!-- Case Filing Confirmation Checklist -->
+            <div class="bg-cyber-950/60 border border-cyber-800 rounded-xl p-4 space-y-2 text-xs text-slate-300">
+              <label class="flex items-start gap-2.5 cursor-pointer">
+                <input type="checkbox" id="legalAcknowledgement" required checked class="mt-0.5 rounded bg-cyber-900 border-cyber-700 text-cyber-cyan">
+                <span>I solemnly declare that the facts, video recordings, and incident evidence submitted are authentic to the best of my knowledge and can be presented before law enforcement and judicial authorities.</span>
+              </label>
+              <label class="flex items-start gap-2.5 cursor-pointer">
+                <input type="checkbox" id="consentOfficerContact" required checked class="mt-0.5 rounded bg-cyber-900 border-cyber-700 text-cyber-cyan">
+                <span>I consent to be contacted directly by the assigned Cyber Investigating Officer for case verification, preservation orders, and digital subpoenas.</span>
+              </label>
+            </div>
+
+            <!-- Submission Actions -->
+            <div class="flex justify-between items-center pt-4 border-t border-cyber-800">
+              <button type="button" onclick="goToStep(3)" class="px-5 py-2.5 bg-cyber-950 border border-cyber-800 text-slate-300 font-semibold rounded-lg text-sm hover:border-slate-600 transition flex items-center gap-2">
+                <i class="fas fa-arrow-left"></i> Back
+              </button>
+              <button type="submit" id="submitReportBtn" class="px-8 py-3 bg-gradient-to-r from-cyber-cyan to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-cyber-950 font-extrabold rounded-xl text-base shadow-lg shadow-cyber-cyan/30 flex items-center gap-3 transition transform hover:scale-[1.02]">
+                <i class="fas fa-shield-virus text-lg"></i> Transmit & Lodge Official Cyber Case
+              </button>
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: MY CASES & OFFICER DESK -->
+    <div id="tab-cases" class="tab-content hidden relative z-10 space-y-6">
+      
+      <!-- Cases Header -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-cyber-900/90 border border-cyber-800 p-6 rounded-2xl shadow-xl">
+        <div>
+          <span class="text-xs font-mono text-cyber-cyan uppercase font-bold tracking-wider">Active Redressal Terminal</span>
+          <h1 class="text-2xl font-black text-white mt-0.5">My Reported Cyber Cases & Officer Desk</h1>
+          <p class="text-xs text-slate-400 mt-1">Track case progression, communicate with your assigned officer, download official police reports, or request emergency updates.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="switchTab('report')" class="px-4 py-2 bg-cyber-800 hover:bg-cyber-700 text-slate-200 border border-cyber-700 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition">
+            <i class="fas fa-plus-circle text-cyber-cyan"></i> Report Another Incident
+          </button>
+        </div>
+      </div>
+
+      <!-- Case Selection Bar (if multiple) -->
+      <div id="casesListPills" class="flex items-center gap-2 overflow-x-auto pb-2">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Active Case Detailed View -->
+      <div id="caseDetailContainer" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Left 2 Cols: Case Summary, Evidence, and Official FIR Actions -->
+        <div class="lg:col-span-2 space-y-6">
+          
+          <!-- Case Status Banner -->
+          <div class="bg-cyber-900 border border-cyber-800 rounded-2xl p-6 shadow-lg">
+            <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+              <div>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-xl font-bold text-white" id="viewCaseTitle">Cyberbullying & Non-Consensual Media Threat</h2>
+                  <span id="viewCaseStatusPill" class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs px-2.5 py-0.5 rounded-full font-semibold">Under Active Investigation</span>
+                </div>
+                <div class="flex items-center gap-3 text-xs text-slate-400 mt-1">
+                  <span>Case ID: <strong id="viewCaseId" class="text-cyber-cyan font-mono font-bold">CYBER-2026-BL-94821</strong></span>
+                  <span>•</span>
+                  <span id="viewCaseTimestamp">Lodged Today at 14:22</span>
+                </div>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="openPrintableReport()" class="px-3.5 py-1.5 bg-cyber-cyan/15 hover:bg-cyber-cyan/25 text-cyber-cyan border border-cyber-cyan/40 rounded-lg text-xs font-bold flex items-center gap-1.5 transition">
+                  <i class="fas fa-print"></i> View & Print FIR Report
+                </button>
+              </div>
+            </div>
+
+            <!-- Investigation Timeline / Stepper -->
+            <div class="mt-6 pt-6 border-t border-cyber-800/80">
+              <h4 class="text-xs font-mono text-slate-400 uppercase font-semibold mb-3">Live Police Redressal Progression</h4>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                <div class="bg-cyber-950 p-3 rounded-xl border border-cyber-cyan/40">
+                  <div class="flex items-center gap-2 text-xs font-bold text-cyber-cyan">
+                    <i class="fas fa-check-circle"></i> 1. Lodged
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">Evidence locked & signed</p>
+                </div>
+                <div class="bg-cyber-950 p-3 rounded-xl border border-cyber-cyan/40">
+                  <div class="flex items-center gap-2 text-xs font-bold text-cyber-cyan">
+                    <i class="fas fa-check-circle"></i> 2. Dispatched
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">Routed to Metro Cyber Cell</p>
+                </div>
+                <div class="bg-cyber-950 p-3 rounded-xl border border-cyber-cyan/40">
+                  <div class="flex items-center gap-2 text-xs font-bold text-cyber-cyan">
+                    <i class="fas fa-user-check"></i> 3. Officer On Duty
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">Inspector assigned to case</p>
+                </div>
+                <div class="bg-cyber-950 p-3 rounded-xl border border-amber-500/40">
+                  <div class="flex items-center gap-2 text-xs font-bold text-amber-400">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-ping mr-0.5"></span> 4. Forensic Subpoena
+                  </div>
+                  <p class="text-[11px] text-slate-400 mt-1">Platform data requisition</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Case Details & Breakdown -->
+          <div class="bg-cyber-900 border border-cyber-800 rounded-2xl p-6 shadow-lg space-y-4">
+            <h3 class="text-sm font-bold text-slate-200 flex items-center gap-2">
+              <i class="fas fa-file-lines text-cyber-cyan"></i> Case Intelligence Dossier
+            </h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div class="bg-cyber-950 p-3 rounded-xl border border-cyber-800">
+                <span class="text-slate-400 block mb-1">Perpetrator Handle / Target:</span>
+                <span id="viewCasePerpetrator" class="text-white font-mono font-bold text-sm">@troll_harrasser_99</span>
+                <span id="viewCaseKnownRel" class="text-slate-400 block text-[11px] mt-1">Relationship: Suspected Classmate</span>
+              </div>
+              <div class="bg-cyber-950 p-3 rounded-xl border border-cyber-800">
+                <span class="text-slate-400 block mb-1">Assigned Cyber Police Station:</span>
+                <span id="viewCaseStation" class="text-white font-bold text-sm">Metro Central Cyber Crime Cell (HQ)</span>
+                <span class="text-slate-400 block text-[11px] mt-1">Jurisdiction: Metro Cyber Safety Wing</span>
+              </div>
+            </div>
+
+            <div>
+              <span class="text-xs text-slate-400 block mb-1">Complainant's Sworn Statement:</span>
+              <p id="viewCaseDescription" class="text-xs text-slate-300 bg-cyber-950 p-3 rounded-xl border border-cyber-800 leading-relaxed font-sans">
+                The bully has been posting altered photos and sending threatening private direct messages demanding I leave the group chat. They threatened to leak my home address and phone numbers online if I don't respond.
+              </p>
+            </div>
+
+            <!-- Uploaded Evidence List with Video Preview -->
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                  <i class="fas fa-video text-cyber-cyan"></i> Uploaded Video Proofs & Forensic Files:
+                </span>
+                <span class="text-[11px] text-emerald-400 font-mono"><i class="fas fa-shield-check"></i> Integrity Verified</span>
+              </div>
+              <div id="viewCaseEvidenceList" class="space-y-2">
+                <!-- Injected via JS -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right 1 Col: Assigned Officer Profile & Secure Interactive Chat -->
+        <div class="space-y-6">
+          
+          <!-- Assigned Officer Card -->
+          <div class="bg-gradient-to-b from-cyber-900 to-cyber-950 border border-cyber-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-cyber-cyan/10 rounded-full blur-2xl"></div>
+            
+            <div class="flex items-center gap-2 text-xs font-mono text-cyber-cyan uppercase font-bold tracking-wider mb-3">
+              <i class="fas fa-id-badge"></i> Assigned Investigating Officer
+            </div>
+
+            <div class="flex items-center gap-4 mb-4">
+              <div class="relative">
+                <img id="officerAvatar" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=200&h=200&q=80" alt="Investigating Officer" class="w-16 h-16 rounded-2xl object-cover border-2 border-cyber-cyan shadow-md">
+                <span class="absolute -bottom-1 -right-1 w-4 h-4 bg-emerald-500 rounded-full border-2 border-cyber-950" title="Online and reviewing reports"></span>
+              </div>
+              <div>
+                <h3 id="officerName" class="font-bold text-white text-base">Inspector Elena Rostova</h3>
+                <p id="officerBadge" class="text-xs font-mono text-cyber-cyan">Badge #CY-40982</p>
+                <p id="officerUnit" class="text-[11px] text-slate-400">Cyber Crime & Anti-Bullying Unit</p>
+              </div>
+            </div>
+
+            <div class="space-y-2 text-xs bg-cyber-950/80 p-3 rounded-xl border border-cyber-800/80 mb-4">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Direct Case Desk:</span>
+                <span id="officerDeskPhone" class="text-slate-200 font-mono font-semibold">+1 (555) 019-CYBER</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Encrypted Email:</span>
+                <span id="officerEmail" class="text-slate-200 font-mono">e.rostova@cybercell.gov</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Duty Status:</span>
+                <span class="text-emerald-400 font-medium flex items-center gap-1">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Active on Duty
+                </span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="triggerOfficerCallModal()" class="w-full py-2 bg-cyber-800 hover:bg-cyber-700 text-slate-200 border border-cyber-700 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                <i class="fas fa-phone-alt text-cyber-cyan"></i> Call Desk
+              </button>
+              <button onclick="requestEmergencyAlert()" class="w-full py-2 bg-red-500/20 hover:bg-red-500/30 text-red-300 border border-red-500/40 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition">
+                <i class="fas fa-triangle-exclamation"></i> Emergency Alert
+              </button>
+            </div>
+          </div>
+
+          <!-- Secure Live Officer Chat Desk -->
+          <div class="bg-cyber-900 border border-cyber-800 rounded-2xl flex flex-col h-[480px] shadow-xl overflow-hidden">
+            <div class="bg-cyber-950 px-4 py-3 border-b border-cyber-800 flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></div>
+                <span class="text-xs font-bold text-white">Direct Officer Communication Line</span>
+              </div>
+              <span class="text-[10px] font-mono text-slate-400 bg-cyber-900 px-2 py-0.5 rounded border border-cyber-800">256-bit TLS</span>
+            </div>
+
+            <!-- Messages Window -->
+            <div id="officerChatWindow" class="flex-grow p-4 space-y-3 overflow-y-auto text-xs">
+              <!-- Default Welcome & Officer message -->
+              <div class="flex gap-2.5 items-start">
+                <div class="w-7 h-7 rounded-full bg-cyber-cyan/20 text-cyber-cyan flex items-center justify-center font-bold text-[10px] shrink-0">
+                  <i class="fas fa-shield-halved"></i>
+                </div>
+                <div class="bg-cyber-800/80 text-slate-200 p-3 rounded-2xl rounded-tl-sm border border-cyber-700/60 max-w-[85%] space-y-1">
+                  <p class="font-bold text-[11px] text-cyber-cyan">Inspector Elena Rostova (Cyber Investigator):</p>
+                  <p>Hello. I have received your case docket along with the uploaded video and screenshot proofs. Our cell is initiating immediate preservation notices to the platform so evidence cannot be deleted.</p>
+                  <span class="text-[10px] text-slate-400 block pt-1">14:24 • Official Notice</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <form onsubmit="handleSendOfficerMessage(event)" class="p-3 bg-cyber-950 border-t border-cyber-800 flex items-center gap-2">
+              <input type="text" id="officerMessageInput" placeholder="Type a message or update for Inspector..." class="flex-grow bg-cyber-900 border border-cyber-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-cyber-cyan" required>
+              <button type="submit" class="px-3.5 py-2 bg-cyber-cyan text-cyber-950 rounded-xl font-bold text-xs hover:bg-cyan-300 transition shrink-0 flex items-center gap-1">
+                <span>Send</span> <i class="fas fa-paper-plane text-[10px]"></i>
+              </button>
+            </form>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TAB 3: NEAREST STATIONS DIRECTORY -->
+    <div id="tab-stations" class="tab-content hidden relative z-10 space-y-6">
+      
+      <div class="bg-cyber-900 border border-cyber-800 rounded-2xl p-6 sm:p-8 shadow-xl">
+        <div class="max-w-2xl mb-6">
+          <span class="text-xs font-mono text-cyber-cyan uppercase font-bold tracking-wider">Jurisdiction Grid</span>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Authorized Cyber Crime Police Stations</h1>
+          <p class="text-xs sm:text-sm text-slate-400 mt-2">
+            Every case filed on Report Cyber is automatically assigned to the designated Cyber Cell station in the victim's territory. You can also visit these certified stations physically with your generated Case Docket.
+          </p>
+        </div>
+
+        <!-- Station Filters / Location Search -->
+        <div class="flex flex-col sm:flex-row gap-3 mb-6">
+          <div class="relative flex-grow">
+            <i class="fas fa-search absolute left-3 top-3 text-slate-500 text-xs"></i>
+            <input type="text" id="stationSearchInput" onkeyup="filterStations(this.value)" placeholder="Search by district, station name, officer name, or pin code..." class="w-full bg-cyber-950 border border-cyber-800 rounded-xl pl-9 pr-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-cyber-cyan">
+          </div>
+          <button onclick="detectUserLocation()" class="px-4 py-2 bg-cyber-cyan text-cyber-950 font-bold rounded-xl text-xs hover:bg-cyan-300 transition flex items-center justify-center gap-2 shrink-0">
+            <i class="fas fa-location-crosshairs"></i> Use My Current Location
+          </button>
+        </div>
+
+        <!-- Stations Grid -->
+        <div id="stationsListGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <!-- Dynamically populated or default cards -->
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 4: VICTIM RIGHTS, SAFETY & LEGAL REDRESSAL -->
+    <div id="tab-resources" class="tab-content hidden relative z-10 space-y-6">
+      <div class="bg-cyber-900 border border-cyber-800 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+        <div>
+          <span class="text-xs font-mono text-cyber-cyan uppercase font-bold tracking-wider">Legal Framework & Safety</span>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white mt-1">Know Your Rights: Cyberbullying & Online Abuse</h1>
+          <p class="text-xs sm:text-sm text-slate-400 mt-2">
+            Cyberbullying is not harmless teasing—it is a cognizable legal offense under Information Technology statutes and Criminal Penal codes.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-cyber-950 p-5 rounded-xl border border-cyber-800 space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-cyber-cyan/10 text-cyber-cyan flex items-center justify-center text-lg">
+              <i class="fas fa-scale-balanced"></i>
+            </div>
+            <h3 class="font-bold text-white text-sm">Legal Statutes & Penalties</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Cyberstalking, transmission of obscene material, doxxing, and extortion carry statutory prison sentences of up to 3 to 7 years with non-bailable warrants.
+            </p>
+          </div>
+
+          <div class="bg-cyber-950 p-5 rounded-xl border border-cyber-800 space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
+              <i class="fas fa-camera-rotate"></i>
+            </div>
+            <h3 class="font-bold text-white text-sm">Evidence Preservation Protocol</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Never delete harassing messages or audio clips. Take full screen captures that include account handles, timestamps, and full URLs. Upload video screen recordings for court admissibility.
+            </p>
+          </div>
+
+          <div class="bg-cyber-950 p-5 rounded-xl border border-cyber-800 space-y-2">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg">
+              <i class="fas fa-hand-holding-heart"></i>
+            </div>
+            <h3 class="font-bold text-white text-sm">Psychological & Trauma Support</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              You are never alone. Cyberbullying can feel overwhelming. If you feel distressed, talk to a trusted adult, counselor, or call the 24/7 mental wellness line.
+            </p>
+          </div>
+        </div>
+
+        <!-- 24/7 Hotlines Table -->
+        <div class="pt-4 border-t border-cyber-800">
+          <h3 class="text-base font-bold text-white mb-3 flex items-center gap-2">
+            <i class="fas fa-phone-volume text-cyber-cyan"></i> Emergency Redressal Contacts
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+            <div class="bg-cyber-950 p-3.5 rounded-xl border border-cyber-800">
+              <span class="text-slate-400 block">National Cyber Crime Helpline:</span>
+              <span class="text-cyber-cyan font-bold font-mono text-lg">1930 / 1-800-CYBER</span>
+              <span class="text-slate-500 block text-[11px] mt-0.5">24x7 Toll-Free</span>
+            </div>
+            <div class="bg-cyber-950 p-3.5 rounded-xl border border-cyber-800">
+              <span class="text-slate-400 block">Child & Student Helpline:</span>
+              <span class="text-emerald-400 font-bold font-mono text-lg">1098 / Childline</span>
+              <span class="text-slate-500 block text-[11px] mt-0.5">Under-18 Support</span>
+            </div>
+            <div class="bg-cyber-950 p-3.5 rounded-xl border border-cyber-800">
+              <span class="text-slate-400 block">Women & Cyber Harassment Cell:</span>
+              <span class="text-pink-400 font-bold font-mono text-lg">1091 / 7827170170</span>
+              <span class="text-slate-500 block text-[11px] mt-0.5">Confidential Redressal</span>
+            </div>
+            <div class="bg-cyber-950 p-3.5 rounded-xl border border-cyber-800">
+              <span class="text-slate-400 block">Suicide & Crisis Lifeline:</span>
+              <span class="text-amber-400 font-bold font-mono text-lg">988 / Vandrevala</span>
+              <span class="text-slate-500 block text-[11px] mt-0.5">Immediate Help</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL: OFFICIAL FIR / CASE REPORT PRINTABLE DOCKET -->
+  <div id="printableReportModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white text-slate-900 rounded-2xl max-w-3xl w-full p-8 shadow-2xl max-h-[90vh] overflow-y-auto printable-docket relative">
+      
+      <!-- Modal Action Header -->
+      <div class="flex justify-between items-center mb-6 no-print border-b pb-4">
+        <div class="flex items-center gap-2">
+          <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2.5 py-1 rounded">OFFICIAL LAW ENFORCEMENT COPY</span>
+          <span class="text-xs text-slate-500">Form E-FIR / Bullying Redressal</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="window.print()" class="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold flex items-center gap-1.5 transition">
+            <i class="fas fa-print"></i> Print / Save PDF
+          </button>
+          <button onclick="closePrintableReport()" class="px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-xs font-bold transition">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      </div>
+
+      <!-- Formal Docket Document Content -->
+      <div class="border-4 border-slate-900 p-6 space-y-6">
+        
+        <!-- Header & Crest -->
+        <div class="text-center border-b-2 border-slate-900 pb-4">
+          <div class="text-xs tracking-widest uppercase font-bold text-slate-600">National Cyber Security & Incident Response Authority</div>
+          <h2 class="text-2xl font-black uppercase text-slate-900 tracking-tight mt-1">FIRST INFORMATION REPORT (E-FIR)</h2>
+          <div class="text-xs font-mono font-semibold text-slate-700 mt-1">CYBERBULLYING & DIGITAL CRIMES INVESTIGATION DOCKET</div>
+        </div>
+
+        <!-- Case Stamp & Barcode -->
+        <div class="grid grid-cols-2 gap-4 text-xs font-mono border-b pb-4">
+          <div>
+            <div><strong>CASE DOCKET NO:</strong> <span id="firCaseId" class="text-blue-700 font-bold">CYBER-2026-BL-94821</span></div>
+            <div><strong>DISPATCH STATION:</strong> <span id="firStation">Metro Central Cyber Crime Cell</span></div>
+            <div><strong>DATE & TIME OF REPORT:</strong> <span id="firDate">2026-11-03 14:22:10 UTC</span></div>
+          </div>
+          <div class="text-right">
+            <div><strong>INVESTIGATING OFFICER:</strong> <span id="firOfficer">Insp. Elena Rostova</span></div>
+            <div><strong>OFFICER BADGE:</strong> <span id="firBadge">#CY-40982</span></div>
+            <div><strong>OFFICIAL STATUS:</strong> <span class="text-emerald-700 font-bold">LODGED & JURISDICTION SECURED</span></div>
+          </div>
+        </div>
+
+        <!-- Complainant & Perpetrator Info -->
+        <div class="grid grid-cols-2 gap-4 text-xs border-b pb-4">
+          <div>
+            <h4 class="font-bold uppercase text-slate-900 mb-1 border-b pb-1">1. Complainant Details</h4>
+            <p><strong>Name / Token:</strong> <span id="firVictimName">Alex Morgan</span></p>
+            <p><strong>Contact:</strong> <span id="firVictimContact">+1 (555) 234-5678</span></p>
+            <p><strong>Email:</strong> <span id="firVictimEmail">alex@example.com</span></p>
+          </div>
+          <div>
+            <h4 class="font-bold uppercase text-slate-900 mb-1 border-b pb-1">2. Suspect / Bully Details</h4>
+            <p><strong>Handle / Account:</strong> <span id="firSuspectHandle" class="font-mono text-red-700 font-bold">@troll_harrasser_99</span></p>
+            <p><strong>Platform:</strong> <span id="firPlatform">Instagram, Discord</span></p>
+            <p><strong>Identity Status:</strong> <span id="firRelationship">Suspected Classmate</span></p>
+          </div>
+        </div>
+
+        <!-- Incident Narrative -->
+        <div class="text-xs border-b pb-4">
+          <h4 class="font-bold uppercase text-slate-900 mb-1">3. Incident Description & Sworn Statement</h4>
+          <p id="firNarrative" class="text-slate-800 leading-relaxed italic bg-slate-50 p-3 rounded border">
+            The bully has been posting altered photos and sending threatening private direct messages demanding I leave the group chat. They threatened to leak my home address and phone numbers online if I don't respond.
+          </p>
+        </div>
+
+        <!-- Evidence & Forensic Hash Ledger -->
+        <div class="text-xs border-b pb-4">
+          <h4 class="font-bold uppercase text-slate-900 mb-1">4. Attached Video & Cryptographic Evidence Ledger</h4>
+          <table class="w-full text-left font-mono text-[11px] mt-2 border">
+            <thead class="bg-slate-100 border-b">
+              <tr>
+                <th class="p-1.5 border-r">Type</th>
+                <th class="p-1.5 border-r">File Name</th>
+                <th class="p-1.5 border-r">SHA-256 Digest</th>
+                <th class="p-1.5">Legal Stamp</th>
+              </tr>
+            </thead>
+            <tbody id="firEvidenceTable">
+              <!-- Dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Officer Signoff & Legal Seal -->
+        <div class="grid grid-cols-2 gap-4 items-end pt-4 text-xs">
+          <div>
+            <div class="w-24 h-24 border-2 border-dashed border-slate-400 rounded-full flex flex-col items-center justify-center text-[10px] text-slate-500 font-bold uppercase rotate-[-6deg]">
+              <span>CYBER CELL</span>
+              <span class="text-blue-700 font-black">CERTIFIED</span>
+              <span>E-STAMP</span>
+            </div>
+          </div>
+          <div class="text-right space-y-1">
+            <div class="font-serif italic text-lg text-slate-800">Elena Rostova, Insp.</div>
+            <div class="border-t border-slate-900 pt-1 font-bold">Signature of Investigating Officer</div>
+            <div class="text-[10px] text-slate-500">Cyber Crime Redressal Authority • Form 44-A</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL: OFFICER CALL SIMULATOR -->
+  <div id="officerCallModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-cyber-900 border border-cyber-cyan/50 text-white rounded-2xl max-w-md w-full p-6 text-center shadow-2xl relative">
+      <div class="w-20 h-20 mx-auto rounded-full bg-cyber-cyan/10 border-2 border-cyber-cyan flex items-center justify-center text-3xl text-cyber-cyan mb-4 animate-bounce">
+        <i class="fas fa-phone-volume"></i>
+      </div>
+      <h3 class="text-lg font-bold">Connecting to Inspector Elena Rostova</h3>
+      <p class="text-xs text-cyber-cyan font-mono mt-1">Direct Secure Line: +1 (555) 019-CYBER</p>
+      <p class="text-xs text-slate-400 mt-3 px-4">
+        Your call is routed through the police encrypted gateway. The officer has your Case ID <span class="text-white font-mono font-bold">CYBER-2026-BL-94821</span> on their terminal.
+      </p>
+
+      <div class="mt-6 flex justify-center gap-3">
+        <button onclick="closeOfficerCallModal()" class="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition">
+          <i class="fas fa-phone-slash"></i> End Call
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: LIVE SCREEN / VIDEO RECORDER SIMULATOR -->
+  <div id="screenRecorderModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-cyber-900 border border-cyber-800 text-white rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+      <div class="flex justify-between items-center border-b border-cyber-800 pb-3">
+        <div class="flex items-center gap-2 text-sm font-bold">
+          <i class="fas fa-record-vinyl text-red-500"></i> Video Proof Capture Utility
+        </div>
+        <button onclick="closeScreenRecorderModal()" class="text-slate-400 hover:text-white">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="bg-cyber-950 aspect-video rounded-xl border border-cyber-800 flex flex-col items-center justify-center text-slate-400 p-4 text-center relative overflow-hidden">
+        <div id="recLiveFeed" class="space-y-2">
+          <i class="fas fa-video-slash text-4xl text-slate-600"></i>
+          <p class="text-xs">Select screen or window to start recording disappearing messages or chat harassment.</p>
+        </div>
+        <div id="recIndicator" class="hidden absolute top-3 left-3 bg-red-600 text-white text-[10px] font-bold px-2 py-0.5 rounded flex items-center gap-1.5 animate-pulse">
+          <span class="w-2 h-2 rounded-full bg-white"></span> REC <span id="recTimer">00:05</span>
+        </div>
+      </div>
+
+      <div class="flex justify-between items-center pt-2">
+        <span class="text-xs text-slate-400">Captured proof will be auto-attached to Step 3.</span>
+        <button id="recToggleBtn" onclick="toggleSimulatedRecording()" class="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition">
+          <i class="fas fa-circle"></i> Start Screen Record
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto border-t border-cyber-800/80 bg-cyber-950 py-8 text-xs text-slate-400 relative z-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <i class="fas fa-shield-cat text-cyber-cyan text-lg"></i>
+        <span class="font-bold text-slate-200">Report Cyber™ Redressal System</span>
+        <span>• Official Cyberbullying and Digital Harassment Portal</span>
+      </div>
+      <div class="flex items-center gap-4 text-[11px] text-slate-500">
+        <span>Confidential Data Preservation</span>
+        <span>•</span>
+        <span>Court-Admissible SHA-256 Hashing</span>
+        <span>•</span>
+        <span class="text-emerald-400">Station Dispatch Active</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
